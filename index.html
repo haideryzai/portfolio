@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haider Zaman — Backend &amp; Full-Stack Engineer</title>
+<meta name="description" content="Haider Zaman — Backend &amp; Full-Stack Engineer building real-time systems for ad-tech, fintech and AI agents.">
+<meta name="theme-color" content="#0f1115">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230f1115'/%3E%3Ctext x='32' y='42' font-family='monospace' font-size='26' fill='%23ffb454' text-anchor='middle'%3EHZ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f1115;
+    --bg-panel:#161922;
+    --bg-panel-2:#1b1e29;
+    --text:#e8e6df;
+    --text-dim:#8b8f99;
+    --text-faint:#5b5e68;
+    --accent:#ffb454;
+    --accent-dim:rgba(255,180,84,0.14);
+    --accent-soft:rgba(255,180,84,0.35);
+    --live:#6fcf97;
+    --line:rgba(232,230,223,0.09);
+    --line-strong:rgba(232,230,223,0.16);
+    --radius:10px;
+    --mono:'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans:'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    --maxw:1180px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth; background:var(--bg);}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--accent-dim); color:var(--accent);}
+
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+  button{font-family:inherit; cursor:pointer; background:none; border:none; color:inherit;}
+
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  .container{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  .mono{font-family:var(--mono);}
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--accent);
+    letter-spacing:0.02em;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{content:"//"; color:var(--text-faint);}
+
+  h1,h2,h3{
+    font-family:var(--mono);
+    font-weight:600;
+    letter-spacing:-0.01em;
+    line-height:1.1;
+  }
+
+  /* ---------- grain overlay ---------- */
+  .grain{
+    position:fixed; inset:0; z-index:999; pointer-events:none;
+    opacity:0.035; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- nav ---------- */
+  .nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    border-bottom:1px solid transparent;
+    transition:background-color .3s ease, border-color .3s ease;
+  }
+  .nav.is-scrolled{
+    background:rgba(15,17,21,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    height:72px;
+  }
+  .logo{
+    font-family:var(--mono); font-weight:600; font-size:15px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo .bracket{color:var(--text-faint);}
+  .logo .mark{color:var(--accent);}
+
+  .nav-links{
+    display:flex; align-items:center; gap:36px;
+    font-family:var(--mono); font-size:13.5px; color:var(--text-dim);
+  }
+  .nav-links a{position:relative; padding:4px 0; transition:color .2s ease;}
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:-2px; width:0; height:1px;
+    background:var(--accent); transition:width .25s ease;
+  }
+  .nav-links a:hover{color:var(--text);}
+  .nav-links a:hover::after{width:100%;}
+
+  .status-pill{
+    display:flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:12.5px; color:var(--text-dim);
+    border:1px solid var(--line-strong); border-radius:999px;
+    padding:6px 14px;
+  }
+  .dot{
+    width:6px; height:6px; border-radius:50%; background:var(--live);
+    box-shadow:0 0 0 3px rgba(111,207,151,0.15);
+    flex-shrink:0;
+  }
+  .dot.amber{background:var(--accent); box-shadow:0 0 0 3px var(--accent-dim);}
+  @media (prefers-reduced-motion:no-preference){
+    .dot{ animation:pulse 2.4s ease-in-out infinite; }
+  }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.45;} }
+
+  .menu-toggle{display:none;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:168px 0 96px;
+    overflow:hidden;
+  }
+  .hero-trace{
+    position:absolute; inset:0; z-index:0; opacity:.5;
+    pointer-events:none;
+  }
+  .hero-trace path{
+    stroke-dasharray:6 10;
+    animation:dash 22s linear infinite;
+  }
+  @media (prefers-reduced-motion:reduce){
+    .hero-trace path{animation:none;}
+  }
+  @keyframes dash{ to{ stroke-dashoffset:-1000; } }
+
+  .hero-grid{
+    position:relative; z-index:1;
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:56px;
+    align-items:start;
+  }
+
+  .hero h1{
+    font-size:clamp(40px, 5.4vw, 68px);
+    margin-bottom:18px;
+  }
+  .hero-sub{
+    font-family:var(--sans);
+    color:var(--text-dim);
+    font-size:17.5px;
+    max-width:480px;
+    margin-bottom:36px;
+  }
+  .hero-sub strong{color:var(--text); font-weight:600;}
+
+  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono); font-size:13.5px; font-weight:500;
+    padding:13px 22px; border-radius:6px; transition:all .2s ease;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary{
+    background:var(--accent); color:#1a1305;
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 10px 24px rgba(255,180,84,0.22); }
+  .btn-ghost{
+    border:1px solid var(--line-strong); color:var(--text);
+  }
+  .btn-ghost:hover{ border-color:var(--accent-soft); background:var(--accent-dim); transform:translateY(-2px); }
+
+  /* whoami panel */
+  .panel{
+    background:var(--bg-panel);
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius);
+    overflow:hidden;
+    box-shadow:0 30px 60px -30px rgba(0,0,0,0.6);
+  }
+  .panel-head{
+    display:flex; align-items:center; gap:8px;
+    padding:11px 16px;
+    border-bottom:1px solid var(--line);
+    background:var(--bg-panel-2);
+  }
+  .panel-head .pip{width:9px; height:9px; border-radius:50%;}
+  .pip.r{background:#5d5b56;} .pip.y{background:#5d5b56;} .pip.g{background:#5d5b56;}
+  .panel-head span.title{
+    margin-left:6px; font-family:var(--mono); font-size:12px; color:var(--text-faint);
+  }
+  .panel-body{ padding:22px 22px 20px; font-family:var(--mono); font-size:13.5px;}
+  .panel-prompt{ color:var(--text-dim); margin-bottom:16px; }
+  .panel-prompt .arrow{color:var(--accent);}
+
+  .panel-row{
+    display:grid; grid-template-columns:90px 1fr; gap:14px;
+    padding:6px 0;
+    opacity:0; transform:translateY(6px);
+  }
+  .panel-row .k{color:var(--text-faint);}
+  .panel-row .v{color:var(--text);}
+  .panel-row .v.status{color:var(--live); display:flex; align-items:center; gap:7px;}
+
+  @media (prefers-reduced-motion:no-preference){
+    .panel-row{ animation:rowIn .5s ease forwards; }
+    .panel-row:nth-child(1){animation-delay:.15s;}
+    .panel-row:nth-child(2){animation-delay:.32s;}
+    .panel-row:nth-child(3){animation-delay:.49s;}
+    .panel-row:nth-child(4){animation-delay:.66s;}
+    .panel-row:nth-child(5){animation-delay:.83s;}
+    .panel-row:nth-child(6){animation-delay:1.0s;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .panel-row{opacity:1; transform:none;}
+  }
+  @keyframes rowIn{ to{opacity:1; transform:translateY(0);} }
+
+  .panel-cursor{
+    margin-top:14px; color:var(--text-dim); display:flex; gap:6px;
+  }
+  .panel-cursor .blink{
+    width:7px; background:var(--accent); display:inline-block;
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .panel-cursor .blink{ animation:blink 1s steps(1) infinite; }
+  }
+  @keyframes blink{ 50%{opacity:0;} }
+
+  /* ticker / log strip */
+  .ticker{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    padding:18px 0;
+    margin-top:64px;
+  }
+  .ticker .container{
+    display:flex; gap:28px; flex-wrap:wrap;
+    font-family:var(--mono); font-size:12.5px; color:var(--text-dim);
+  }
+  .ticker span.sep{color:var(--text-faint);}
+
+  /* ---------- sections ---------- */
+  .section{ padding:120px 0; }
+  .section-head{ margin-bottom:52px; max-width:600px; }
+  .section-head h2{ font-size:30px; color:var(--text); }
+  .section-head p{ color:var(--text-dim); margin-top:14px; font-size:15.5px; }
+
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.is-visible{ opacity:1; transform:translateY(0); }
+
+  /* about */
+  .about-body{ display:grid; grid-template-columns:1fr 1fr; gap:48px; }
+  .about-body p{ color:var(--text-dim); font-size:15.5px; margin-bottom:16px; }
+  .about-body strong{ color:var(--text); font-weight:600; }
+
+  /* experience timeline */
+  .timeline{ border-left:1px solid var(--line); }
+  .tl-item{ position:relative; padding:0 0 56px 36px; }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-item::before{
+    content:""; position:absolute; left:-5px; top:4px;
+    width:9px; height:9px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--accent);
+  }
+  .tl-head{
+    display:flex; flex-wrap:wrap; align-items:baseline; gap:14px;
+    margin-bottom:6px;
+  }
+  .tl-head .eyebrow{ margin-bottom:0; font-size:14.5px; }
+  .tl-role{ color:var(--text-dim); font-family:var(--sans); font-size:14.5px; }
+  .tl-date{
+    font-family:var(--mono); font-size:12px; color:var(--text-faint);
+    margin-left:auto;
+  }
+  .tl-list{ margin-top:14px; }
+  .tl-list li{
+    position:relative; padding-left:18px; margin-bottom:9px;
+    color:var(--text-dim); font-size:15px; max-width:680px;
+  }
+  .tl-list li::before{
+    content:"–"; position:absolute; left:0; color:var(--text-faint);
+  }
+  .tl-list li strong{ color:var(--text); font-weight:500; }
+
+  /* projects */
+  .proj-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;
+  }
+  .proj-card{
+    grid-column:span 1;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:24px;
+    transition:border-color .25s ease, transform .25s ease, background .25s ease;
+    display:flex; flex-direction:column;
+  }
+  .proj-card:hover{
+    border-color:var(--accent-soft);
+    transform:translateY(-4px);
+    background:var(--bg-panel-2);
+  }
+  .proj-card.featured{ grid-column:span 2; }
+  .proj-top{
+    display:flex; align-items:flex-start; justify-content:space-between;
+    margin-bottom:14px; gap:10px;
+  }
+  .proj-name{
+    font-family:var(--mono); font-size:15.5px; color:var(--accent);
+    word-break:break-word;
+  }
+  .proj-status{
+    font-family:var(--mono); font-size:11px; color:var(--text-faint);
+    display:flex; align-items:center; gap:6px; white-space:nowrap;
+    border:1px solid var(--line-strong); border-radius:999px; padding:4px 10px;
+    flex-shrink:0;
+  }
+  .proj-desc{ color:var(--text-dim); font-size:14.5px; flex-grow:1; margin-bottom:16px; }
+  .proj-desc strong{ color:var(--text); font-weight:500; }
+  .proj-tags{ display:flex; gap:8px; flex-wrap:wrap; }
+  .tag{
+    font-family:var(--mono); font-size:11px; color:var(--text-dim);
+    background:rgba(232,230,223,0.04); border:1px solid var(--line);
+    padding:4px 9px; border-radius:5px;
+  }
+
+  /* stack */
+  .stack-manifest{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:8px 0;
+  }
+  .stack-row{
+    display:grid; grid-template-columns:180px 1fr;
+    gap:24px; padding:16px 28px;
+    border-bottom:1px solid var(--line);
+    align-items:baseline;
+  }
+  .stack-row:last-child{ border-bottom:none; }
+  .stack-key{ font-family:var(--mono); font-size:13px; color:var(--accent); }
+  .stack-val{ color:var(--text-dim); font-size:15px; font-family:var(--sans); }
+
+  /* contact */
+  .contact-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
+  }
+  .contact-copy h2{ font-size:32px; margin-bottom:16px; max-width:420px; }
+  .contact-copy p{ color:var(--text-dim); font-size:15.5px; max-width:420px; margin-bottom:32px; }
+  .contact-panel .panel-body{ font-size:14px; }
+  .contact-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:10px 0; border-bottom:1px solid var(--line);
+    gap:12px;
+  }
+  .contact-row:last-child{ border-bottom:none; }
+  .contact-row .k{ color:var(--text-faint); }
+  .contact-row .v{ color:var(--text); word-break:break-all; }
+  .copy-btn{
+    font-family:var(--mono); font-size:11px; color:var(--text-dim);
+    border:1px solid var(--line-strong); border-radius:5px; padding:4px 9px;
+    flex-shrink:0; transition:all .2s ease;
+  }
+  .copy-btn:hover{ color:var(--accent); border-color:var(--accent-soft); }
+  .contact-ctas{ display:flex; gap:12px; margin-top:20px; flex-wrap:wrap; }
+
+  /* footer */
+  footer{
+    border-top:1px solid var(--line);
+    padding:32px 0;
+  }
+  footer .container{
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:12px;
+  }
+  footer p{ font-family:var(--mono); font-size:12px; color:var(--text-faint); }
+
+  /* ---------- mobile ---------- */
+  @media (max-width:900px){
+    .hero-grid{ grid-template-columns:1fr; }
+    .about-body{ grid-template-columns:1fr; }
+    .proj-grid{ grid-template-columns:repeat(2,1fr); }
+    .proj-card.featured{ grid-column:span 2; }
+    .contact-grid{ grid-template-columns:1fr; }
+  }
+
+  @media (max-width:680px){
+    .container{ padding:0 20px; }
+    .nav-links{
+      position:fixed; inset:0; top:72px;
+      flex-direction:column; align-items:flex-start;
+      padding:32px 28px; gap:28px;
+      background:var(--bg);
+      transform:translateX(100%);
+      transition:transform .3s ease;
+      font-size:18px;
+    }
+    .nav-links.open{ transform:translateX(0); }
+    .status-pill{ display:none; }
+    .menu-toggle{
+      display:flex; flex-direction:column; gap:5px; padding:6px;
+    }
+    .menu-toggle span{
+      width:20px; height:1.5px; background:var(--text);
+    }
+    .hero{ padding:140px 0 64px; }
+    .section{ padding:80px 0; }
+    .proj-grid{ grid-template-columns:1fr; }
+    .proj-card.featured{ grid-column:span 1; }
+    .stack-row{ grid-template-columns:1fr; gap:6px; }
+    .tl-date{ margin-left:0; }
+    .ticker .container{ flex-direction:column; gap:10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="#top" class="logo"><span class="bracket">[</span><span class="mark">HZ</span><span class="bracket">]</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div style="display:flex; align-items:center; gap:16px;">
+      <div class="status-pill"><span class="dot amber"></span>accepting contracts</div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <svg class="hero-trace" viewBox="0 0 1200 500" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,380 L80,380 L100,310 L140,420 L180,380 L260,380 L290,260 L320,380 L420,380 L450,200 L480,380 L600,380 L630,330 L660,380 L1200,380"
+          fill="none" stroke="#ffb454" stroke-width="1.2"/>
+    <path d="M0,260 L160,260 L190,170 L220,260 L380,260 L410,330 L440,260 L700,260 L730,150 L760,260 L1200,260"
+          fill="none" stroke="#8b8f99" stroke-width="1"/>
+  </svg>
+
+  <div class="container hero-grid">
+    <div>
+      <p class="eyebrow">full-stack &amp; backend engineer</p>
+      <h1>Haider<br>Zaman</h1>
+      <p class="hero-sub">I design and ship <strong>real-time backend systems</strong> — bidding engines, fraud detection pipelines, identity services — and lately, <strong>AI agents</strong> that help operate them. Based in Islamabad, working with teams worldwide.</p>
+      <div class="hero-ctas">
+        <a href="#work" class="btn btn-primary">View work →</a>
+        <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+
+    <div class="panel reveal is-visible">
+      <div class="panel-head">
+        <span class="pip r"></span><span class="pip y"></span><span class="pip g"></span>
+        <span class="title">whoami.sh</span>
+      </div>
+      <div class="panel-body">
+        <p class="panel-prompt"><span class="arrow">$</span> guest@portfolio:~ whoami</p>
+        <div class="panel-row"><span class="k">name</span><span class="v">Haider Zaman</span></div>
+        <div class="panel-row"><span class="k">role</span><span class="v">Backend / Full-Stack Engineer</span></div>
+        <div class="panel-row"><span class="k">based_in</span><span class="v">Islamabad, Pakistan</span></div>
+        <div class="panel-row"><span class="k">status</span><span class="v status"><span class="dot"></span>accepting new contracts</span></div>
+        <div class="panel-row"><span class="k">stack</span><span class="v">Go · TypeScript · Python · Kotlin</span></div>
+        <div class="panel-row"><span class="k">focus</span><span class="v">ad-tech systems, AI agents</span></div>
+        <p class="panel-cursor">$ <span class="blink">&nbsp;</span></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ticker">
+    <div class="container">
+      <span>real-time bidding tuned for &lt;200ms response</span><span class="sep">·</span>
+      <span>Top Rated · 5.0★ on Upwork</span><span class="sep">·</span>
+      <span>shipped apps with 10K+ installs</span><span class="sep">·</span>
+      <span>full programmatic ad-tech stack, built end to end</span>
+    </div>
+  </div>
+</header>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="reveal section-head">
+      <p class="eyebrow">about</p>
+      <h2>Backend-first, full-stack when it counts.</h2>
+    </div>
+    <div class="reveal about-body">
+      <p>I started at <strong>CodeFreaks</strong> building B2B SaaS products from the ground up — a hiring platform for private equity firms, a UK vehicle recovery marketplace — then moved into ad-tech at <strong>Advergic</strong>, where I built the full programmatic advertising stack: bidding, fraud detection, identity resolution, an Android SDK, and the dashboards that tie it together.</p>
+      <p>Most of what I build lives where latency, scale, and correctness all matter at once — request paths measured in milliseconds, pipelines processing real-time signal, systems that have to be right the first time. Lately that's extended to agentic AI: I'm building a copilot that investigates and fixes infrastructure issues on its own, with a human approving the risky parts. Outside client work, I freelance on Upwork as a Top Rated contractor.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="section" id="experience">
+  <div class="container">
+    <div class="reveal section-head">
+      <p class="eyebrow">experience</p>
+      <h2>Where the systems got built.</h2>
+      <p>In chronological order — each role building on the last.</p>
+    </div>
+
+    <div class="reveal timeline">
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="eyebrow">advergic</span>
+          <span class="tl-role">Full-Stack Developer</span>
+          <span class="tl-date">2025.04 → present</span>
+        </div>
+        <ul class="tl-list">
+          <li>Built a <strong>real-time bidding engine</strong> in Go (Gin, OpenRTB 2.x) tuned for sub-200ms response at scale</li>
+          <li>Migrated a <strong>bot &amp; invalid-traffic detection platform</strong> from Node/Redis Streams/MongoDB/ClickHouse to Go for throughput</li>
+          <li>Shipped an <strong>Android SDK</strong> (Kotlin, Prebid header bidding, GAM mediation) with on-device fraud detection and OpenTelemetry instrumentation</li>
+          <li>Built an <strong>identity &amp; cookie-sync service</strong> integrating LiveRamp, ID5, UID2 and TCF 2.0 consent, backed by Aerospike + Redis</li>
+          <li>Wrote a ~22KB vanilla JS <strong>tracking pixel</strong> covering the full ecommerce funnel and multi-source attribution</li>
+          <li>Delivered publisher, advertiser and admin dashboards, plus a self-hosted Prebid Server bidder adapter</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="eyebrow">codefreaks</span>
+          <span class="tl-role">Software Engineer</span>
+          <span class="tl-date">2024.01 → 2025.04</span>
+        </div>
+        <ul class="tl-list">
+          <li><strong>Dexta</strong> (dexta.io) — B2B SaaS hiring platform for private equity firms, built on NestJS/MySQL/Stripe</li>
+          <li><strong>Winchit</strong> (winchit.co) — UK vehicle recovery marketplace on Node.js/MongoDB/WebSockets/Stripe</li>
+          <li>Contract: a live NFC-based loyalty app for TaskDONE UG (MERN) — 10K+ downloads, 4.3★ on Google Play</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="eyebrow">freelance</span>
+          <span class="tl-role">Independent Contractor · Upwork</span>
+          <span class="tl-date">2024.10 → present</span>
+        </div>
+        <ul class="tl-list">
+          <li>Top Rated, 5-star client ratings across every engagement</li>
+          <li>Delivery across SaaS platforms, live streaming, automation and enterprise integration work</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="section" id="work">
+  <div class="container">
+    <div class="reveal section-head">
+      <p class="eyebrow">selected work</p>
+      <h2>Systems, named the way I'd name them in a repo.</h2>
+    </div>
+
+    <div class="reveal proj-grid">
+      <div class="proj-card featured">
+        <div class="proj-top">
+          <span class="proj-name">sre-copilot</span>
+          <span class="proj-status"><span class="dot amber"></span>in development</span>
+        </div>
+        <p class="proj-desc">An <strong>AI SRE/DevOps copilot</strong> — connect your servers, ask questions in plain English, and let it investigate autonomously. Remediation only runs after a human approves it. Multi-service: Node/Express/PostgreSQL backend, a Python/LangGraph agent engine, a React frontend, and a Go remote agent.</p>
+        <div class="proj-tags">
+          <span class="tag">Node.js</span><span class="tag">PostgreSQL</span><span class="tag">Python</span><span class="tag">LangGraph</span><span class="tag">React</span><span class="tag">Go</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-name">realtime-bidding-engine</span>
+          <span class="proj-status"><span class="dot"></span>live</span>
+        </div>
+        <p class="proj-desc">An OpenRTB-compliant bidder built for <strong>sub-200ms</strong> response under real production load.</p>
+        <div class="proj-tags"><span class="tag">Go</span><span class="tag">Gin</span><span class="tag">OpenRTB 2.x</span></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-name">ivt-detection-platform</span>
+          <span class="proj-status"><span class="dot"></span>live</span>
+        </div>
+        <p class="proj-desc">Bot &amp; invalid-traffic detection for ad inventory, rebuilt in Go for throughput.</p>
+        <div class="proj-tags"><span class="tag">Go</span><span class="tag">ClickHouse</span><span class="tag">Redis</span></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-name">android-bidding-sdk</span>
+          <span class="proj-status"><span class="dot"></span>live</span>
+        </div>
+        <p class="proj-desc">Header-bidding &amp; mediation SDK with on-device fraud detection and full telemetry.</p>
+        <div class="proj-tags"><span class="tag">Kotlin</span><span class="tag">Prebid</span><span class="tag">OpenTelemetry</span></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-name">identity-resolution-service</span>
+          <span class="proj-status"><span class="dot"></span>live</span>
+        </div>
+        <p class="proj-desc">Cookie-sync &amp; identity matching across LiveRamp, ID5, UID2, with TCF 2.0 consent handling.</p>
+        <div class="proj-tags"><span class="tag">Go</span><span class="tag">Aerospike</span><span class="tag">Redis</span></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-name">dexta</span>
+          <span class="proj-status"><span class="dot"></span>live</span>
+        </div>
+        <p class="proj-desc">B2B SaaS hiring platform built for private equity firms. <strong>dexta.io</strong></p>
+        <div class="proj-tags"><span class="tag">NestJS</span><span class="tag">MySQL</span><span class="tag">Stripe</span></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-name">winchit</span>
+          <span class="proj-status"><span class="dot"></span>live</span>
+        </div>
+        <p class="proj-desc">A marketplace connecting UK drivers with vehicle recovery services in real time. <strong>winchit.co</strong></p>
+        <div class="proj-tags"><span class="tag">Node.js</span><span class="tag">MongoDB</span><span class="tag">WebSockets</span></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <span class="proj-name">loyalty-nfc-app</span>
+          <span class="proj-status"><span class="dot"></span>live</span>
+        </div>
+        <p class="proj-desc">NFC-based loyalty app for TaskDONE UG — <strong>10K+ downloads</strong>, 4.3★ on Google Play.</p>
+        <div class="proj-tags"><span class="tag">MERN</span><span class="tag">NFC</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STACK -->
+<section class="section" id="stack">
+  <div class="container">
+    <div class="reveal section-head">
+      <p class="eyebrow">stack</p>
+      <h2>What's actually in the manifest.</h2>
+    </div>
+    <div class="reveal stack-manifest">
+      <div class="stack-row"><span class="stack-key">languages</span><span class="stack-val">Go · TypeScript / JavaScript · Kotlin · Python</span></div>
+      <div class="stack-row"><span class="stack-key">backend</span><span class="stack-val">Node.js / Express · NestJS · Gin</span></div>
+      <div class="stack-row"><span class="stack-key">data</span><span class="stack-val">PostgreSQL · MySQL · MongoDB · ClickHouse · Redis · Aerospike</span></div>
+      <div class="stack-row"><span class="stack-key">frontend &amp; mobile</span><span class="stack-val">React · React Native · Kotlin / Android</span></div>
+      <div class="stack-row"><span class="stack-key">ad-tech</span><span class="stack-val">OpenRTB 2.x · Prebid · TCF 2.0</span></div>
+      <div class="stack-row"><span class="stack-key">ai &amp; infra</span><span class="stack-val">LangGraph · AI agents · OpenTelemetry · Docker · BullMQ</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="container contact-grid">
+    <div class="reveal contact-copy">
+      <p class="eyebrow">contact</p>
+      <h2>Let's build something that has to work.</h2>
+      <p>Open to contract and full-time backend / full-stack roles — especially systems with real scale or latency constraints.</p>
+      <div class="contact-ctas">
+        <a href="mailto:haiderzamanusafxay@gmail.com" class="btn btn-primary">Send an email</a>
+        <a href="https://github.com/haideryzai" target="_blank" rel="noopener" class="btn btn-ghost">View GitHub</a>
+        <a href="https://linkedin.com/in/haiderzamanyzi" target="_blank" rel="noopener" class="btn btn-ghost">Connect on LinkedIn</a>
+      </div>
+    </div>
+
+    <div class="reveal panel contact-panel">
+      <div class="panel-head">
+        <span class="pip r"></span><span class="pip y"></span><span class="pip g"></span>
+        <span class="title">contact.sh</span>
+      </div>
+      <div class="panel-body">
+        <div class="contact-row"><span class="k">email</span><span class="v">haiderzamanusafxay@gmail.com</span><button class="copy-btn" data-copy="haiderzamanusafxay@gmail.com">copy</button></div>
+        <div class="contact-row"><span class="k">phone</span><span class="v">+92 341 8857731</span><button class="copy-btn" data-copy="+92 341 8857731">copy</button></div>
+        <div class="contact-row"><span class="k">linkedin</span><span class="v">/in/haiderzamanyzi</span></div>
+        <div class="contact-row"><span class="k">github</span><span class="v">/haideryzai</span></div>
+        <p aria-live="polite" id="copyStatus" style="margin-top:14px; font-size:11px; color:var(--live); min-height:14px;"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Haider Zaman — built with an unhealthy attention to latency.</p>
+    <p>Islamabad, Pakistan</p>
+  </div>
+</footer>
+
+<script>
+  // nav scroll state
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('is-scrolled', window.scrollY > 12);
+  }, { passive:true });
+
+  // mobile menu
+  const toggle = document.getElementById('menuToggle');
+  const links = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open);
+  });
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    links.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }));
+
+  // scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('is-visible');
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // copy to clipboard
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const text = btn.dataset.copy;
+      const status = document.getElementById('copyStatus');
+      try {
+        await navigator.clipboard.writeText(text);
+        status.textContent = `copied "${text}" to clipboard`;
+      } catch {
+        status.textContent = 'could not copy — select manually';
+      }
+      setTimeout(() => status.textContent = '', 2200);
+    });
+  });
+</script>
+
+</body>
+</html>
